@@ -5,7 +5,7 @@ from std_msgs.msg import Header
 
 class Sim_time_pub(Node):
     def __init__(self):
-        super().__init__('simple_time_mpub')
+        super().__init__('tpub')
         self.pub = self.create_publisher(Header, 'time', 10)
         self.create_timer(0.1, self.publisher)
         self.id = 0

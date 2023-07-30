@@ -5,7 +5,7 @@ from std_msgs.msg import String
 class Sim_sub(Node):
     def __init__(self):
         super().__init__('msub')
-        self.pub = self.create_subscription(String, 'message', self.sub, 10)
+        self.create_subscription(String, 'message', self.sub, 10)
     def sub(self, msg):
         self.get_logger().info(f'Recived message: {msg.data}')
 
