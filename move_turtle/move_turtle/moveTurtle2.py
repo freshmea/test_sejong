@@ -8,7 +8,9 @@ class Move_turtle(Node):
     def __init__(self):
         super().__init__('mturtle')
         self.pub = self.create_publisher(Twist, 'turtle1/cmd_vel', 10)
+        self.pub2 = self.create_publisher(Twist, 'turtle2/cmd_vel', 10)
         self.create_timer(0.1, self.publisher)
+        self.create_timer(0.1, self.publisher2)
         self.create_timer(1/60, self.update)
         self.speed = 0.0
         self.dir = 1.0
@@ -19,6 +21,13 @@ class Move_turtle(Node):
         msg.angular.z = self.dir
         msg = self.restrain(msg)
         self.pub.publish(msg)
+        
+    def publisher2(self):
+        msg = Twist()
+        msg.linear.x = self.speed
+        msg.angular.z = -self.dir
+        msg = self.restrain(msg)
+        self.pub2.publish(msg)
 
     def update(self):
         # speed, dir 
