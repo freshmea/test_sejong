@@ -22,8 +22,17 @@ find_package(rosidl_default_generators REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
+set(servicefile
   "srv/TwoIntAdd.srv"
+)
+
+set(actionfile
+  "action/Fibonacci.action"
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${servicefile}
+  ${actionfile}
 )
 # add_executable()
 # install()

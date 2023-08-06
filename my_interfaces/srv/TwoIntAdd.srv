@@ -1,4 +1,6 @@
-int64 a_number
-int64 b_number
+int64 a
+int64 b
+
 ---
-int64 return_number
+
+int64 rn

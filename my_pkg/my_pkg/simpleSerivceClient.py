@@ -10,9 +10,9 @@ class Simple_service_client(Node):
     
     def call_service(self):
         self.msg = TwoIntAdd.Request()
-        self.msg.a_number = random.randint(0,200)
-        self.msg.b_number = random.randint(0,200)
-        
+        self.msg.a = random.randint(0,200)
+        self.msg.b = random.randint(0,200)
+        print('massage sending')
         self.future = self.client.call_async(self.msg)
         rclpy.spin_until_future_complete(self, self.future)
         return self.future.result()
@@ -22,7 +22,7 @@ def main():
     node = Simple_service_client()
     try:
         response = node.call_service()
-        node.get_logger().info( f'Recived message : {response.return_number}')
+        node.get_logger().info( f'Recived message : {response.rn}')
         # rclpy.spin(node)
     except:
         node.destroy_node()

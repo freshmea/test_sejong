@@ -1,14 +1,12 @@
 import rclpy
 from rclpy.node import Node 
 from my_interfaces.srv import TwoIntAdd
+from rclpy.action import ActionServer
 
-class Simple_service_server(Node):
+class Fibonacci_action_server(Node):
     def __init__(self):
-        self.cnt = 0
-        super().__init__('twonumber')
-        self.srv = self.create_service(TwoIntAdd, 'addtwoint', self.twonumber_callback)
-        self.timer = self.create_timer(1, self.test)
-        self.request = TwoIntAdd.Request()
+        super().__init__('fibonacci_server')
+        self.action_server = ActionServer(self, )
 
     def twonumber_callback(self, request, response):
         print(type(request))
@@ -24,7 +22,7 @@ class Simple_service_server(Node):
 
 def main(args = None):
     rclpy.init(args = args)
-    node = Simple_service_server()
+    node = Fibonacci_action_server()
     try:
         rclpy.spin(node)
     except:
