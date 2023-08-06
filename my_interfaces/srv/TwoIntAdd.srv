@@ -1,0 +1,4 @@
+int8 a_number
+int8 b_number
+---
+int8 return_number
