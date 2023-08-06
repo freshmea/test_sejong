@@ -10,9 +10,9 @@ class Fibonacci_action_server(Node):
         self.action_server = ActionServer(self, Fibonacci, 'fibonacci', self.excute_callback )
 
     def excute_callback(self, goal_handle):
-        feedback_msg = goal_handle.Feedback()
+        feedback_msg = Fibonacci.Feedback()
         feedback_msg.temp_seq = [0, 1]
-        result = goal_handle.Result()
+        result = Fibonacci.Result()
         
         self.get_logger().info('request[Goal] is accepted!!')
         
@@ -20,7 +20,7 @@ class Fibonacci_action_server(Node):
             feedback_msg.temp_seq.append(feedback_msg.temp_seq[i]+feedback_msg.temp_seq[i-1])
             goal_handle.publish_feedback(feedback_msg)
             time.sleep(1)
-        goal_handle.succed()
+        goal_handle.succeed()
         result.seq = feedback_msg.temp_seq
         return result
 

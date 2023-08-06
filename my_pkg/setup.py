@@ -34,7 +34,8 @@ setup(
             'messagetimesub = my_pkg.messageTimeSubscriber:main',
             'simplesss = my_pkg.simpleServiceServer:main',
             'simplessc = my_pkg.simpleSerivceClient:main',
-            'simplesas = my_pkg.simpleActionServer:main'
+            'simplesas = my_pkg.simpleActionServer:main',
+            'simplesac = my_pkg.simpleActoinClient:main'
         ],
     },
 )
