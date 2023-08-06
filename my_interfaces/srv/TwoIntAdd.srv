@@ -1,4 +1,4 @@
-int8 a_number
-int8 b_number
+int64 a_number
+int64 b_number
 ---
-int8 return_number
+int64 return_number
