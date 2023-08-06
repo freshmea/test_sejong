@@ -6,14 +6,13 @@ class Simple_service_server(Node):
     def __init__(self):
         self.cnt = 0
         super().__init__('twonumber')
-        self.srv = self.create_service(TwoIntAdd, 'addtwoint', self.twonumber_callback)
+        self.srv = self.create_service(TwoIntAdd, 'addtwointaa', self.twonumber_callback)
         self.timer = self.create_timer(1, self.test)
-        self.request = TwoIntAdd.Request()
 
     def twonumber_callback(self, request, response):
         print(type(request))
-        # self.get_logger().info(f'incomming data{self.request.a}, {self.request.b}')
-        # response.rn =  request.a + request.b
+        self.get_logger().info(f'incomming data{request.a}, {request.b}')
+        response.rn =  request.a + request.b
         # response.rn = 10 
         return response
         
