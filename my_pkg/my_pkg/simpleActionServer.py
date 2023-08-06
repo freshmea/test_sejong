@@ -1,24 +1,28 @@
 import rclpy
 from rclpy.node import Node 
-from my_interfaces.srv import TwoIntAdd
+from my_interfaces.action import Fibonacci
 from rclpy.action import ActionServer
+import time
 
 class Fibonacci_action_server(Node):
     def __init__(self):
         super().__init__('fibonacci_server')
-        self.action_server = ActionServer(self, )
+        self.action_server = ActionServer(self, Fibonacci, 'fibonacci', self.excute_callback )
 
-    def twonumber_callback(self, request, response):
-        print(type(request))
-        # self.get_logger().info(f'incomming data{self.request.a}, {self.request.b}')
-        # response.rn =  request.a + request.b
-        # response.rn = 10 
-        return response
+    def excute_callback(self, goal_handle):
+        feedback_msg = goal_handle.Feedback()
+        feedback_msg.temp_seq = [0, 1]
+        result = goal_handle.Result()
         
-
-    def test(self):
-        self.get_logger().info( f'a {self.cnt}')
-        self.cnt += 1
+        self.get_logger().info('request[Goal] is accepted!!')
+        
+        for i in range(1, goal_handle.request.step):
+            feedback_msg.temp_seq.append(feedback_msg.temp_seq[i]+feedback_msg.temp_seq[i-1])
+            goal_handle.publish_feedback(feedback_msg)
+            time.sleep(1)
+        goal_handle.succed()
+        result.seq = feedback_msg.temp_seq
+        return result
 
 def main(args = None):
     rclpy.init(args = args)
