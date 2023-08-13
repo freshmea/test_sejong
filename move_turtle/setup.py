@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'mt = move_turtle.moveTurtle:main',
-            'mt2 = move_turtle.moveTurtle2:main'
+            'mt2 = move_turtle.moveTurtle2:main',
+            'imagesub = move_turtle.imagesub:main'
         ],
     },
 )
