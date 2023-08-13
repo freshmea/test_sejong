@@ -66,7 +66,6 @@ class Calculator(Node):
         feedback.formula = []
         total_sum = 0.0
         goal_sum = goal_handle.request.goal_sum
-        print(goal_sum)
         while total_sum < goal_sum:
             total_sum += self.argument_result
             feedback.formula.append(self.argument_formula)
