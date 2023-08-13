@@ -1,7 +1,7 @@
 import rclpy 
 from rclpy.node import Node
 from rclpy.qos import QoSProfile
-from sensor_msgs.msg import Image, LaserScan
+from sensor_msgs.msg import Image, LaserScan, CompressedImage
 import cv2
 from cv_bridge import CvBridge, CvBridgeError
 import numpy as np 
@@ -13,7 +13,7 @@ class Tb3_image_sub(Node):
     def __init__(self):
         super().__init__('tb3_image_sub')
         self.qos_profile = QoSProfile(depth = 10)
-        self.create_subscription(Image, 'camera/image/compressed', self.sub_message, 10)
+        self.create_subscription(CompressedImage, '/camera/image/compressed', self.sub_message, 10)
         self.cb = CvBridge()
         # self.traffic = cv2.imread('traffic_stop.png')
         # self.orbF = cv2.ORB_create(nfeatures=800)
@@ -21,7 +21,7 @@ class Tb3_image_sub(Node):
 
     def sub_message(self, msg):
         try:
-            current_frame = self.cb.imgmsg_to_cv2(msg, "bgr8")
+            current_frame = self.cb.compressed_imgmsg_to_cv2(msg)
         except CvBridgeError as e:
             self.get_logger().info(e)
         
