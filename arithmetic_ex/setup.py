@@ -1,6 +1,9 @@
 from setuptools import setup
+from setuptools import find_packages
+import glob, os
 
 package_name = 'arithmetic_ex'
+share_dir = 'share/' + package_name
 
 setup(
     name=package_name,
@@ -10,6 +13,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (share_dir + '/param', glob.glob(os.path.join('param', '*.yaml'))),
+        (share_dir + '/launch', glob.glob(os.path.join('launch', '*.launch.py'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
