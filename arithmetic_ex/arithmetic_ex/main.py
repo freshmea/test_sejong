@@ -20,7 +20,7 @@ class Calculator(Node):
         self.argument_b = 0.0
         self.arithmetic_result = 0.0
         self.argument_result = 0.0
-        self.argument_fomula = ''
+        self.argument_formula = ''
         self.argument_symbol= ['+', '-', '*', '/']
         
     def sub(self, msg):
@@ -39,7 +39,7 @@ class Calculator(Node):
                 self.arithmetic_result = 0.0
             else:
                 self.arithmetic_result = self.argument_a / self.argument_b
-        self.argument_fomula = f'{self.argument_a} {self.argument_symbol[self.argument_operator-1]} {self.argument_b} = {self.arithmetic_result}'
+        self.argument_formula = f'{self.argument_a} {self.argument_symbol[self.argument_operator-1]} {self.argument_b} = {self.arithmetic_result}'
         self.argument_result = self.arithmetic_result
 
 
