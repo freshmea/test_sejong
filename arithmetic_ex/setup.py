@@ -25,7 +25,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'argument = arithmetic_ex.argument:main'
+            'argument = arithmetic_ex.argument:main',
+            'argumentsub = arithmetic_ex.argumentsub:main'
         ],
     },
 )

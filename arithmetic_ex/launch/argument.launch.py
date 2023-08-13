@@ -23,5 +23,11 @@ def generate_launch_description():
              executable='argument',
             #  parameters=[{'min_random_num': 10, 'max_random_num': 50}],
              parameters=[param_dir],
+             output='screen'),
+        
+        Node(package='arithmetic_ex',
+             executable='argumentsub',
+            #  parameters=[{'min_random_num': 10, 'max_random_num': 50}],
+             parameters=[param_dir],
              output='screen')
     ])
