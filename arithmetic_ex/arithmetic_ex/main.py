@@ -12,17 +12,18 @@ import time
 class Calculator(Node):
     def __init__(self):
         super().__init__('calculator')
-        self.create_subscription(ArithmeticArgument, 'arithmtic_argument', self.sub, 10)
+        self.create_subscription(ArithmeticArgument, 'arithmetic_argument', self.sub, 10)
         self.create_service(ArithmeticOperator, 'arithmetic_operator', self.get_arithmetic_operator, callback_group=ReentrantCallbackGroup())
         self.arithmetic_action_server = ActionServer(self, ArithmeticChecker, 'arithmetic_checker',self.execute_callback, callback_group=ReentrantCallbackGroup())
-        
+
         self.argument_a = 0.0
         self.argument_b = 0.0
         self.arithmetic_result = 0.0
         self.argument_result = 0.0
         self.argument_formula = ''
-        self.argument_symbol= ['+', '-', '*', '/']
-        
+        self.argument_symbol = ['+', '-', '*', '/']
+        self.argument_operator = 1
+
     def sub(self, msg):
         self.get_logger().info(f'Recived time: {msg.stamp.sec}, {msg.stamp.nanosec}')
         self.get_logger().info(f'Recived message: {msg.argument_a}, {msg.argument_b}')

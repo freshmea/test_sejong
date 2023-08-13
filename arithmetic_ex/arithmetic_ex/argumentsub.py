@@ -5,7 +5,7 @@ from my_interfaces.msg import ArithmeticArgument
 class Arugument_sub(Node):
     def __init__(self):
         super().__init__('argument_sub')
-        self.create_subscription(ArithmeticArgument, 'arithmtic_argument', self.sub, 10)
+        self.create_subscription(ArithmeticArgument, 'arithmetic_argument', self.sub, 10)
     def sub(self, msg):
         self.get_logger().info(f'Recived time: {msg.stamp.sec}, {msg.stamp.nanosec}')
         self.get_logger().info(f'Recived message: {msg.argument_a}, {msg.argument_b}')
