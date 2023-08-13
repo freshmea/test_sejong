@@ -24,9 +24,9 @@ def main():
     try:
         while rclpy.ok():
             # rclpy.spin_once(node)
-            input('Press Enter for next service call')
             response = node.call_service()
             node.get_logger().info( f'Recived message : {response.arithmetic_result}')
+            input('Press Enter for next service call')
     except:
         node.destroy_node()
         rclpy.shutdown()
