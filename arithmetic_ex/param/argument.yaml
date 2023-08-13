@@ -1,5 +1,5 @@
 /argument:
   ros__parameters:
-    max_random_num: 9
+    max_random_num: 90
     min_random_num: 0
     use_sim_time: false
