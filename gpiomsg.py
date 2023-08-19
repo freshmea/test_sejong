@@ -22,7 +22,7 @@ class Gpio_sub(Node):
         if msg.data == 'ledoff':
             g.output(21, False)
         if msg.data[:5] == 'servo':
-            self.pwm.ChangeDutyCycle(float(msg.dtata[5:])/180*12.5)
+            self.pwm.ChangeDutyCycle(float(msg.data[5:])/180*12.5)
 
 def main():
     rclpy.init()
