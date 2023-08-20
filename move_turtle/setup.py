@@ -28,7 +28,8 @@ setup(
             'mt2 = move_turtle.moveTurtle2:main',
             'imagesub = move_turtle.imagesub:main',
             'gostraight = move_turtle.gostraight:main',
-            'arucogo = move_turtle.arucogo:main'
+            'arucogo = move_turtle.arucogo:main',
+            'rotate = move_turtle.rotate:main'
         ],
     },
 )
