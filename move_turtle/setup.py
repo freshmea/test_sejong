@@ -1,5 +1,6 @@
 from setuptools import setup
-import os, glob
+import os
+from glob import glob
 
 package_name = 'move_turtle'
 share_dir = 'share/'+ package_name

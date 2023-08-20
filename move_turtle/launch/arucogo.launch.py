@@ -10,6 +10,7 @@ def generate_launch_description():
         'config',
         'aruco_parameters.yaml'
         )
+    
     return LaunchDescription([
         Node(
             package='ros2_aruco',
