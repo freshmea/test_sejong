@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
+from ros2_aruco_interfaces.msg import ArucoMarkers
 from math import sqrt
 
 MAX_LIN_VEL = 0.22
@@ -12,6 +13,7 @@ class Move_straight(Node):
         super().__init__('straight')
         self.pub = self.create_publisher(Twist, 'cmd_vel', 10)
         self.odometery_sub = self.create_subscription(Odometry, 'odom', self.odom_sub, 10)
+        self.aruco_marker_sub = self.create_subscription(ArucoMarkers, 'aruco_markers', self.aruco_sub, 10)
         self.origin_x = 0.0
         self.origin_y = 0.0
         self.x = 0.0
@@ -21,8 +23,9 @@ class Move_straight(Node):
         self.x = data.pose.pose.position.x
         self.y = data.pose.pose.position.y
 
-    def straight(self, distance):
+    def aruco_sub(self, submsg):
         msg = Twist()
+        distance = submsg.poses[0].z - 0.05
         rclpy.spin_once(self)
         self.origin_x = self.x
         self.origin_y = self.y
@@ -58,8 +61,6 @@ def main():
     rclpy.init()
     node = Move_straight()
     try:
-        dist = float(input("input distance to straight(m): "))
-        node.straight(dist)
         rclpy.spin(node)
     except KeyboardInterrupt:
         print('keyboard Interrupt!!')

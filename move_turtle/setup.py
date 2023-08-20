@@ -1,6 +1,8 @@
 from setuptools import setup
+import os, glob
 
 package_name = 'move_turtle'
+share_dir = 'share/'+ package_name
 
 setup(
     name=package_name,
@@ -10,6 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (share_dir + '/launch', glob(os.path.join('launch', '*.launch.py')))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -23,7 +26,8 @@ setup(
             'mt = move_turtle.moveTurtle:main',
             'mt2 = move_turtle.moveTurtle2:main',
             'imagesub = move_turtle.imagesub:main',
-            'gostraight = move_turtle.gostraight:main'
+            'gostraight = move_turtle.gostraight:main',
+            'arucogo = move_turtle.arucogo:main'
         ],
     },
 )
