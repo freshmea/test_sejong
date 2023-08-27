@@ -30,7 +30,8 @@ setup(
             'gostraight = move_turtle.gostraight:main',
             'arucogo = move_turtle.arucogo:main',
             'rotate = move_turtle.rotate:main',
-            'followwaypoints = move_turtle.followwaypoints:main'
+            'followwaypoints = move_turtle.followwaypoints:main',
+            'basicnavigator = move_turtle.basicnavigator:main'
         ],
     },
 )
