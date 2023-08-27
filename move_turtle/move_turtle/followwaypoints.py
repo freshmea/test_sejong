@@ -6,7 +6,7 @@ from geometry_msgs.msg import PoseStamped
 from rclpy.action import ActionClient
 import sys
 
-class FollowWaypoints1(Node):
+class FollowWaypointsNode(Node):
     def __init__(self):
         super().__init__('follow_waypoints')
         self.cli = ActionClient(self, FollowWaypoints, '/FollowWaypoints')
@@ -39,11 +39,11 @@ class FollowWaypoints1(Node):
 
 def main():
     rclpy.init()
-    node = FollowWaypoints1()
+    node = FollowWaypointsNode()
     try:
         pose = PoseStamped()
         pose.header.frame_id = 'map'
-        # pose.header.stamp = node.get_clock().now().to_msg()
+        pose.header.stamp = node.get_clock().now().to_msg()
         pose.pose.orientation.w = 1.0 #theta
         pose.pose.position.z = 0.0
         pose.pose.position.x = 0.376
