@@ -1,62 +1,63 @@
-# from geometry_msgs.msg import PoseStamped
-# from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
-# import rclpy
-# from rclpy.duration import Duration
-
-# def main():
-#     rclpy.init()
-#     goals=[]
-#     navigator = BasicNavigator()
-#     initial_pose = PoseStamped()
-#     initial_pose.header.frame_id = 'map'
-#     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-#     initial_pose.pose.position.x = -5.18
-#     initial_pose.pose.position.y = -6.58
-#     initial_pose.pose.orientation.z =0.0
-#     initial_pose.pose.orientation.w =0.99
-#     navigator.setInitialPose(initial_pose)
-
-#     navigator.waitUntilNav2Active()
+import rclpy
+from rclpy.node import Node
+from std_srvs.srv import SetBool
+import RPi.GPIO as g
 
 
-#     # Go to our demos first goal pose
-#     goal_pose = PoseStamped()
-#     goal_pose.header.frame_id = 'map'
-#     goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-#     goal_pose.pose.position.x =-1.23
-#     goal_pose.pose.position.y =-2.1
-#     goal_pose.pose.orientation.w =0.99
-#     goals.append(goal_pose)
+class Gpio_led_server(Node):
+    """
+    A class representing a GPIO LED server.
 
-#     goal_pose_1 = PoseStamped()
-#     goal_pose_1.header.frame_id = 'map'
-#     goal_pose_1.header.stamp = navigator.get_clock().now().to_msg()
-#     goal_pose_1.pose.position.x =-7.4
-#     goal_pose_1.pose.position.y =-1.17
-#     goal_pose_1.pose.orientation.w =0.99
-#     goals.append(goal_pose_1)
+    This class creates a ROS service that can be used to control an LED connected
+    to a GPIO pin on a Raspberry Pi.
+
+    """
+    
+    def __init__(self):
+        """
+        Initializes the GPIO LED server node.
+        This method sets up a ROS service that can be used to control an LED
+        connected to GPIO pin 21 on a Raspberry Pi.
+        """
+        super().__init__('gpioLedServer')
+        self.srv = self.create_service(SetBool, 'gpio_led_server', self.gpio_led)
+        g.setmode(g.BCM)
+        g.setup(21, g.OUT)
+
+    def gpio_led(self, request, response):
+        """_summary_
+        Args:
+            request (_type_): _description_
+            response (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        self.get_logger().info(f'incomming data{request.data}')
+        if request.data:
+            g.output(21, True)
+        else:
+            g.output(21, False)
+        response.success = True
+        response.message = 'ok'
+        return response
 
 
-#     navigator.goThroughPoses(goals)
-#     while not navigator.isTaskComplete():
-#         pass
+def main(args=None):
+    """_summary_
+
+    Args:
+        args (_type_, optional): _description_. Defaults to None.
+    """
+    rclpy.init(args=args)
+    node = Gpio_led_server()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        g.cleanup()
+        node.destroy_node()
+        rclpy.shutdown()
 
 
-#     # Do something depending on the return code
-#     result = navigator.getResult()
-#     if result == TaskResult.SUCCEEDED:
-#         print('Goal succeeded!')
-#     elif result == TaskResult.CANCELED:
-#         print('Goal was canceled!')
-#     elif result == TaskResult.FAILED:
-#         print('Goal failed!')
-#     else:
-#         print('Goal has an invalid return status!')
-
-#     navigator.lifecycleShutdown()
-
-#     exit(0)
-
-
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
