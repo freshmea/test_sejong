@@ -4,12 +4,14 @@ from geometry_msgs.msg import Twist
 
 MAX_LIN_VEL = 0.22
 MAX_ANG_VEL = 2.84
+
+
 class Move_turtle(Node):
     def __init__(self):
-        super().__init__('mturtle')
-        self.pub = self.create_publisher(Twist, 'turtle1/cmd_vel', 10)
+        super().__init__("mturtle")
+        self.pub = self.create_publisher(Twist, "turtle1/cmd_vel", 10)
         self.create_timer(0.1, self.publisher)
-        self.create_timer(1/60, self.update)
+        self.create_timer(1 / 60, self.update)
         self.speed = 0.0
         self.dir = 1.0
 
@@ -21,7 +23,7 @@ class Move_turtle(Node):
         self.pub.publish(msg)
 
     def update(self):
-        # speed, dir 
+        # speed, dir
         # sec, nano = self.get_clock().now().seconds_nanoseconds
         self.speed += 0.01 * self.dir
         if self.speed > 2:
@@ -29,14 +31,14 @@ class Move_turtle(Node):
         elif self.speed < 0:
             self.dir = 1.0
         print(self.speed, self.dir)
-        
+
     def restrain(self, msg):
-        if msg.linear.x < - MAX_LIN_VEL:
-            msg.linear.x = - MAX_LIN_VEL
+        if msg.linear.x < -MAX_LIN_VEL:
+            msg.linear.x = -MAX_LIN_VEL
         elif msg.linear.x > MAX_LIN_VEL:
             msg.linear.x = MAX_LIN_VEL
-        if msg.angular.z < - MAX_ANG_VEL:
-            msg.angular.z = - MAX_ANG_VEL
+        if msg.angular.z < -MAX_ANG_VEL:
+            msg.angular.z = -MAX_ANG_VEL
         elif msg.angular.z > MAX_ANG_VEL:
             msg.angular.z = MAX_ANG_VEL
         return msg
@@ -48,10 +50,11 @@ def main():
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        print('keyboard Interrupt!!')
+        print("keyboard Interrupt!!")
     finally:
-        node.destroy_node
+        node.destroy_node()
         rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

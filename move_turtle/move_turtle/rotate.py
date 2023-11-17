@@ -95,7 +95,7 @@ def main():
         msg.linear.z = 0.0
         node.pub.publish(msg)
         
-        node.destroy_node
+        node.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
