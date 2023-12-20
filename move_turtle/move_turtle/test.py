@@ -28,7 +28,7 @@ class Move_with_angle(Node):
         self.distance = 0.0
         self.angle = 0.0
 
-    def odom_sub(self, data):
+    def odom_sub(self, data: Odometry):
         self.x = data.pose.pose.position.x
         self.y = data.pose.pose.position.y
 

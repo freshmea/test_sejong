@@ -20,9 +20,9 @@ class Gpio_led_server(Node):
         connected to GPIO pin 21 on a Raspberry Pi.
         """
         super().__init__("gpioLedServer")  # type: ignore
-        self.srv = self.create_service(SetBool, "gpio_led_server", self.gpio_led)
-        g.setmode(g.BCM)
-        g.setup(21, g.OUT)
+        # self.srv = self.create_service(SetBool, "gpio_led_server", self.gpio_led)
+        # g.setmode(g.BCM)
+        # g.setup(21, g.OUT)
 
     def gpio_led(self, request, response):
         """_summary_
@@ -34,12 +34,12 @@ class Gpio_led_server(Node):
             _type_: _description_
         """
         self.get_logger().info(f"incomming data{request.data}")
-        if request.data:
-            g.output(21, True)
-        else:
-            g.output(21, False)
-        response.success = True
-        response.message = "ok"
+        # if request.data:
+        #     g.output(21, True)
+        # else:
+        #     g.output(21, False)
+        # response.success = True
+        # response.message = "ok"
         return response
 
 
@@ -54,7 +54,7 @@ def main(args=None):
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        g.cleanup()
+        # g.cleanup()
         node.destroy_node()
         rclpy.shutdown()
 

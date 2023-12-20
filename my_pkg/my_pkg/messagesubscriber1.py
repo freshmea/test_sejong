@@ -2,12 +2,15 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
+
 class Sim_sub(Node):
     def __init__(self):
-        super().__init__('msub')
-        self.create_subscription(String, 'message', self.sub, 10)
+        super().__init__("msub")  # type: ignore
+        self.create_subscription(String, "message", self.sub, 10)
+
     def sub(self, msg):
-        self.get_logger().info(f'Recived message: {msg.data}')
+        self.get_logger().info(f"Recived message: {msg.data}")
+
 
 def main():
     rclpy.init()
@@ -15,10 +18,11 @@ def main():
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        print('keyboard Interrupt!!')
+        print("keyboard Interrupt!!")
     finally:
         node.destroy_node()
         rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
