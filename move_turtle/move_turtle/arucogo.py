@@ -11,7 +11,7 @@ MAX_ANG_VEL = 2.84
 
 class Move_straight(Node):
     def __init__(self):
-        super().__init__("straight")
+        super().__init__("straight")  # type: ignore
         self.pub = self.create_publisher(Twist, "cmd_vel", 10)
         self.odometery_sub = self.create_subscription(
             Odometry, "odom", self.odom_sub, 10
@@ -27,13 +27,13 @@ class Move_straight(Node):
         self.moving = False
         self.distance = 0.0
 
-    def odom_sub(self, data):
+    def odom_sub(self, data: Odometry):
         self.x = data.pose.pose.position.x
         self.y = data.pose.pose.position.y
 
-    def aruco_sub(self, submsg):
-        self.distance = submsg.poses[0].position.z - 0.05
-        self.get_logger().info(f"{submsg.poses[0].position.z}")
+    def aruco_sub(self, submsg: ArucoMarkers):
+        self.distance = submsg.poses[0].position.z - 0.05  # type: ignore
+        self.get_logger().info(f"{submsg.poses[0].position.z}")  # type: ignore
         self.origin_x = self.x
         self.origin_y = self.y
         self.moving = True

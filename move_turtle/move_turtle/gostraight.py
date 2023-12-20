@@ -7,11 +7,14 @@ from math import sqrt
 MAX_LIN_VEL = 0.22
 MAX_ANG_VEL = 2.84
 
+
 class Move_straight(Node):
     def __init__(self):
-        super().__init__('straight')
-        self.pub = self.create_publisher(Twist, 'cmd_vel', 10)
-        self.odometery_sub = self.create_subscription(Odometry, 'odom', self.odom_sub, 10)
+        super().__init__("straight")  # type: ignore
+        self.pub = self.create_publisher(Twist, "cmd_vel", 10)
+        self.odometery_sub = self.create_subscription(
+            Odometry, "odom", self.odom_sub, 10
+        )
         self.origin_x = 0.0
         self.origin_y = 0.0
         self.x = 0.0
@@ -34,21 +37,21 @@ class Move_straight(Node):
             self.pub.publish(msg)
             if self.elapsed_dist() > distance:
                 break
-            
+
         msg.linear.x = 0.0
-        self.pub.publish(msg) # stop move
+        self.pub.publish(msg)  # stop move
 
     def elapsed_dist(self):
         # calcurate and return elapsed distance
         return sqrt(pow((self.x - self.origin_x), 2) + pow((self.y - self.origin_y), 2))
 
     def restrain(self, msg):
-        if msg.linear.x < - MAX_LIN_VEL:
-            msg.linear.x = - MAX_LIN_VEL
+        if msg.linear.x < -MAX_LIN_VEL:
+            msg.linear.x = -MAX_LIN_VEL
         elif msg.linear.x > MAX_LIN_VEL:
             msg.linear.x = MAX_LIN_VEL
-        if msg.angular.z < - MAX_ANG_VEL:
-            msg.angular.z = - MAX_ANG_VEL
+        if msg.angular.z < -MAX_ANG_VEL:
+            msg.angular.z = -MAX_ANG_VEL
         elif msg.angular.z > MAX_ANG_VEL:
             msg.angular.z = MAX_ANG_VEL
         return msg
@@ -62,10 +65,11 @@ def main():
         node.straight(dist)
         rclpy.spin(node)
     except KeyboardInterrupt:
-        print('keyboard Interrupt!!')
+        print("keyboard Interrupt!!")
     finally:
         node.destroy_node()
         rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

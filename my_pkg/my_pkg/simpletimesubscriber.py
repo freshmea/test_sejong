@@ -21,7 +21,7 @@ def main():
     except KeyboardInterrupt:
         print('keyboard Interrupt!!')
     finally:
-        node.destroy_node
+        node.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':

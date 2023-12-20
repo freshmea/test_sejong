@@ -8,7 +8,7 @@ MAX_ANG_VEL = 2.84
 
 class Move_turtle(Node):
     def __init__(self):
-        super().__init__("mturtle")
+        super().__init__("mturtle")  # type: ignore
         self.pub = self.create_publisher(Twist, "turtle1/cmd_vel", 10)
         self.create_timer(0.1, self.publisher)
         self.create_timer(1 / 60, self.update)
