@@ -59,10 +59,10 @@ class Sim_sub(Node):
                 self.msg.linear.x = 0.0
             else:
                 # 오른쪽 방향에 벽이 먼면 우회전 아니면 좌회전 적당한거리(0.3~0.4)면 직진
-                if self.scan_avr[6] > 0.25:
+                if self.scan_avr[6] > 0.2:
                     self.msg.angular.z = -0.2
                     self.msg.linear.x = FORWARD_SPEED / 2
-                elif self.scan_avr[6] < 0.2:
+                elif self.scan_avr[6] < 0.18:
                     self.msg.angular.z = 0.6
                     self.msg.linear.x = FORWARD_SPEED / 2
                 else:
@@ -70,13 +70,15 @@ class Sim_sub(Node):
                     self.msg.linear.x = FORWARD_SPEED
                 # 충돌 체크
                 if (
-                    self.scan_avr[0] < 0.1
-                    or self.scan_avr[7] < 0.1
-                    or self.scan_avr[6] < 0.1
-                    or self.scan_avr[1] < 0.1
-                    or self.scan_avr[2] < 0.1
+                    self.scan_avr[0] < 0.15
+                    or self.scan_avr[7] < 0.15
+                    or self.scan_avr[1] < 0.15
+                    or self.scan_avr[6] < 0.15
                 ):
                     self.msg.linear.x = -FORWARD_SPEED
+                    # 뒤로 갈 수 없다면 제자리 회전
+                    if self.scan_avr[3] < 0.1 or self.scan_avr[4] < 0.1:
+                        self.msg.linear.x = 0.0
                     self.msg.angular.z = random.random() * 0.5
                     self.get_logger().info("collision detected")
 
