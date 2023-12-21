@@ -50,17 +50,6 @@ class Sim_sub(Node):
         pass
 
     def update(self):
-        # 모든 방향에 대해서 가장 먼 거리를 찾아서 그 방향으로 회전
-        # if self.max_index > 350 or self.max_index < 10:
-        #     self.msg.angular.z = 0.0
-        #     self.msg.linear.x = 0.1
-        # elif self.max_index > 180:
-        #     self.msg.angular.z = -0.5
-        #     self.msg.linear.x = 0.0
-        # elif self.max_index < 180:
-        #     self.msg.angular.z = 0.5
-        #     self.msg.linear.x = 0.0
-
         # 벽을 찾은 후에는 벽을 따라가도록 함
         if self.wall_detect:
             # 앞쪽 방향에 장애물이 있는지 확인
