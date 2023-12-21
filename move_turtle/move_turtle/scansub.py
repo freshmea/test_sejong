@@ -6,6 +6,7 @@ from geometry_msgs.msg import Twist
 import numpy as np
 
 MAX_SLICE = 8
+FORWARD_SPEED = 0.6
 
 
 class Sim_sub(Node):
@@ -18,21 +19,27 @@ class Sim_sub(Node):
         self.msg = Twist()
         self.max_value = 0.0
         self.max_index = 0
-        self.scan_avr = list(range(MAX_SLICE))
+        self.scan_avr = [1.0 for i in range(MAX_SLICE)]
+        self.wall_detect = False
 
     def sub(self, msg: LaserScan):
         # find maxium value and index
         self.max_value = 0.0
         self.max_index = 0
+
+        # 모든 방향에 대해서 무한 값은 3.5로 바꾸고, 가장 먼 거리를 찾아서 변수에 저장
         for i in range(360):
             if msg.ranges[i] == float("inf"):
                 msg.ranges[i] = 3.5
             if msg.ranges[i] > self.max_value:
                 self.max_value = msg.ranges[i]
                 self.max_index = i
+        # MAX_SLICE 각도로 나눠서 각 방향의 평균값을 구함
         for i in range(MAX_SLICE):
-            self.scan_avr[i] = np.average(
-                msg.ranges[i * (360 // MAX_SLICE) : (i + 1) * (360 // MAX_SLICE)]
+            self.scan_avr[i] = float(
+                np.average(
+                    msg.ranges[i * (360 // MAX_SLICE) : (i + 1) * (360 // MAX_SLICE)]
+                )
             )
         self.get_logger().info(f"max_index: {self.max_index}")
         for i in range(MAX_SLICE):
@@ -43,6 +50,7 @@ class Sim_sub(Node):
         pass
 
     def update(self):
+        # 모든 방향에 대해서 가장 먼 거리를 찾아서 그 방향으로 회전
         # if self.max_index > 350 or self.max_index < 10:
         #     self.msg.angular.z = 0.0
         #     self.msg.linear.x = 0.1
@@ -53,20 +61,34 @@ class Sim_sub(Node):
         #     self.msg.angular.z = 0.5
         #     self.msg.linear.x = 0.0
 
-        if np.average([self.scan_avr[0], self.scan_avr[7]]) < 0.4:
-            self.msg.angular.z = 0.5
-            self.msg.linear.x = 0.0
-        else:
-            if self.scan_avr[6] > 0.4:
-                self.msg.angular.z = -0.5
-            elif self.scan_avr[6] < 0.3:
+        # 벽을 찾은 후에는 벽을 따라가도록 함
+        if self.wall_detect:
+            # 앞쪽 방향에 장애물이 있는지 확인
+            if np.average([self.scan_avr[0], self.scan_avr[7]]) < 0.4:  # type: ignore
                 self.msg.angular.z = 0.5
+                self.msg.linear.x = 0.0
             else:
-                self.msg.angular.z = 0.0
-            self.msg.linear.x = 0.05
-        # if self.left_side_avr > 0.2:
-        #     self.msg.angular.z = 0.5
-        #     self.msg.linear.x = 0.0
+                # 오른쪽 방향에 벽이 먼면 우회전 아니면 좌회전 적당한거리(0.3~0.4)면 직진
+                if self.scan_avr[6] > 0.4:
+                    self.msg.angular.z = -0.2
+                    self.msg.linear.x = FORWARD_SPEED
+                elif self.scan_avr[6] < 0.3:
+                    self.msg.angular.z = 0.6
+                    self.msg.linear.x = 0.0
+                else:
+                    self.msg.angular.z = 0.0
+                    self.msg.linear.x = FORWARD_SPEED
+        else:
+            # 벽을 찾기 전에는 직진
+            self.msg.linear.x = FORWARD_SPEED
+            # 벽을 찾으면 벽 찾음 변수 True로 바꿈
+            if (
+                (self.scan_avr[6] < 0.4)
+                or (self.scan_avr[7] < 0.4)
+                or (self.scan_avr[0] < 0.4)
+            ):
+                self.wall_detect = True
+                self.get_logger().info("wall detected")
 
 
 def main():
