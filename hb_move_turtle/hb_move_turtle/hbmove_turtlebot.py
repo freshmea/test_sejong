@@ -18,6 +18,7 @@ class Hbmove(Node):
         self.scan = LaserScan()
         self.scan_avg = [0.0 for _ in range(MAX_SLICE)]
         self.msg = Twist()
+        self.clock = self.get_clock()
 
     def update(self):
         # update variables self.msg, self.scan, self.camera
@@ -31,6 +32,7 @@ class Hbmove(Node):
             self.get_logger().info(
                 f"Set go msg: {sum([self.scan_avg[0], self.scan_avg[7]])}"
             )
+            self.get_logger().info(f"{self.clock.now().nanoseconds}")
 
     def turtle_callback(self):
         self.msg = self.speed_limit(self.msg)
