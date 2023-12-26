@@ -23,21 +23,17 @@ class Hbmove(Node):
         self.scan_avg = [0.0 for _ in range(MAX_SLICE)]
         self.msg = Twist()
         self.clock = self.get_clock()
-        # self.time = time.time()
+        self.declare_parameter("start", False)
+        self.start = self.get_parameter("start").value
 
     def update(self):
         # update variables self.msg, self.scan, self.camera
         if sum([self.scan_avg[0], self.scan_avg[7]]) < 1:
             self.msg.linear.x = 0.0
-            self.get_logger().info(
-                f"Set stop msg: {sum([self.scan_avg[0], self.scan_avg[7]])}"
-            )
         else:
             self.msg.linear.x = LIN_MAX
-            self.get_logger().info(
-                f"Set go msg: {sum([self.scan_avg[0], self.scan_avg[7]])}"
-            )
             self.get_logger().info(f"{self.clock.now().nanoseconds}")
+        self.get_logger().info(f'{self.get_parameter("start").value}')
 
     def turtle_callback(self):
         self.msg = self.speed_limit(self.msg)
