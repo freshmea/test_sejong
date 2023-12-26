@@ -2,6 +2,8 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
+from rclpy.qos import qos_profile_sensor_data
+import time
 
 LIN_MAX = 0.22
 ANG_MAX = 2.84
@@ -14,11 +16,14 @@ class Hbmove(Node):
         self.create_timer(0.1, self.turtle_callback)
         self.create_timer(1 / 60, self.update)
         self.pub = self.create_publisher(Twist, "cmd_vel", 10)
-        self.create_subscription(LaserScan, "scan", self.scan_callback, 10)
+        self.create_subscription(
+            LaserScan, "scan", self.scan_callback, qos_profile_sensor_data
+        )
         self.scan = LaserScan()
         self.scan_avg = [0.0 for _ in range(MAX_SLICE)]
         self.msg = Twist()
         self.clock = self.get_clock()
+        # self.time = time.time()
 
     def update(self):
         # update variables self.msg, self.scan, self.camera
