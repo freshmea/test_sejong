@@ -12,7 +12,7 @@ setup(
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
         (share_dir + "/launch", glob.glob(os.path.join("launch", "*.launch.py"))),
-        (share_dir + '/param', glob.glob(os.path.join('param', '*.yaml'))),
+        (share_dir + "/param", glob.glob(os.path.join("param", "*.yaml"))),
     ],
     install_requires=["setuptools"],
     zip_safe=True,
@@ -27,6 +27,7 @@ setup(
             "hbmove_turtlesim = hb_move_turtle.hbmove_turtlesim:main",
             "hbmove_sub = hb_move_turtle.hbmove_sub:main",
             "hbmove_turtlebot = hb_move_turtle.hbmove_turtlebot:main",
+            "hbmove_manipulator = hb_move_turtle.hbmove_manipulator:main",
         ],
     },
 )
