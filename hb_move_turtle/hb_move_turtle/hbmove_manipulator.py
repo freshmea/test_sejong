@@ -57,7 +57,7 @@ class Hbmove(Node):
 
         try:
             self.goal_joint_space.call_async(self.goal_joint_space_req)
-        except Exception as e:
+        except Exception as e:  # noqa
             self.get_logger().info("Sending Goal Joint failed %r" % (e,))
 
 
