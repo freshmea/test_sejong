@@ -28,6 +28,7 @@ setup(
             "hbmove_sub = hb_move_turtle.hbmove_sub:main",
             "hbmove_turtlebot = hb_move_turtle.hbmove_turtlebot:main",
             "hbmove_manipulator = hb_move_turtle.hbmove_manipulator:main",
+            "hbmove_image = hb_move_turtle.hbmove_image:main",
         ],
     },
 )
