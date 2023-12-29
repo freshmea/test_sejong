@@ -7,7 +7,7 @@ import numpy as np
 import random
 
 MAX_SLICE = 8
-FORWARD_SPEED = 0.08
+FORWARD_SPEED = 0.07
 
 
 class Sim_sub(Node):
@@ -15,7 +15,7 @@ class Sim_sub(Node):
         super().__init__("scansub")  # type: ignore
         self.create_subscription(LaserScan, "scan", self.sub, qos_profile_sensor_data)
         self.twistpub = self.create_publisher(Twist, "cmd_vel", 10)
-        self.create_timer(0.1, self.pub)
+        self.create_timer(0.01, self.pub)
         self.create_timer(0.01, self.update)
         self.msg = Twist()
         self.max_value = 0.0
