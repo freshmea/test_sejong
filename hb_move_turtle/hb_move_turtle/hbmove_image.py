@@ -11,10 +11,10 @@ from pathlib import Path
 
 class Tb3_image_sub(Node):
     def __init__(self):
-        super().__init__("tb3_image_sub")  # type: ignore
+        super().__init__("hb_image_sub")  # type: ignore
         self.qos_profile = QoSProfile(depth=10)
         self.create_subscription(
-            CompressedImage, "/camera/image/compressed", self.sub_message, 10
+            CompressedImage, "/image_raw/compressed", self.sub_message, 10
         )
         self.cb = CvBridge()
         # self.traffic = cv2.imread('traffic_stop.png')
@@ -28,8 +28,8 @@ class Tb3_image_sub(Node):
         except CvBridgeError as e:
             self.get_logger().info(e)
 
-        # # 1 canny
-        # canny = cv2.Canny(current_frame, 50, 100)
+        # 1 canny
+        canny = cv2.Canny(current_frame, 50, 100)  # type: ignore
         # # 2 houghlineP
         # lines = cv2.HoughLinesP(canny, 1, np.pi/180.0, 100, maxLineGap=5)
         # for line in lines:
@@ -69,7 +69,8 @@ class Tb3_image_sub(Node):
 
         # print('center pixel', current_frame[300,300])
         cv2.waitKey(1)  # 이미지 처리 시간 주기.
-        cv2.imshow("camera", current_frame)  # type: ignore
+        # cv2.imshow("camera", current_frame)  # type: ignore
+        cv2.imshow("canny", canny)  # type: ignore
 
     # def sub_scan(self, msg):
     #     self.get_logger().info('abcdef')

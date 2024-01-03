@@ -5,23 +5,25 @@ from rclpy.qos import QoSHistoryPolicy, QoSReliabilityPolicy, QoSDurabilityPolic
 from std_msgs.msg import String
 from rclpy.qos import qos_profile_sensor_data
 
+
 class Sim_pub(Node):
     def __init__(self):
-        super().__init__('simple_mpub')
+        super().__init__("simple_mpub")
         # qos_profile = QoSProfile(
-        #     history = QoSHistoryPolicy.KEEP_ALL, 
+        #     history = QoSHistoryPolicy.KEEP_ALL,
         #     reliability = QoSReliabilityPolicy.RELIABLE,
         #     durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
         #     )
-        self.pub = self.create_publisher(String, 'message', qos_profile_sensor_data)
+        self.pub = self.create_publisher(String, "message", qos_profile_sensor_data)
         self.create_timer(1, self.publisher)
         self.count = 0
 
     def publisher(self):
         msg = String()
-        msg.data = 'hellow :'+str(self.count)
+        msg.data = "hellow :" + str(self.count)
         self.pub.publish(msg)
         self.count += 1
+
 
 def main():
     rclpy.init()
@@ -29,10 +31,11 @@ def main():
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        print('keyboard Interrupt!!')
+        print("keyboard Interrupt!!")
     finally:
-        node.destroy_node
+        node.destroy_node()
         rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
