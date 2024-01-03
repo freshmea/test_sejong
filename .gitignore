@@ -1,1 +1,3 @@
 colcon.env
+.vscode/
+.mypy_cache/
